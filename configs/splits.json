@@ -1,0 +1,12 @@
+{
+  "source_manifest": "manifest_split.csv",
+  "random_seed": 42,
+  "split_ratios": {
+    "train": 0.7,
+    "val": 0.15,
+    "test": 0.15
+  },
+  "split_unit": "leaf_id",
+  "leakage_test_passed": true,
+  "note": "Full per-record split assignments live in manifest_split.csv, not duplicated here."
+}
