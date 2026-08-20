@@ -6,7 +6,6 @@ REPO_ID = "mohanty/PlantVillage"
 REPO_TYPE = "dataset"
 EXTRACT_DIR = "data_extracted"
 
-# Bu dosyalar zaten önbellekte (cache), yeniden indirmeyecek, sadece yolunu alacak
 train_split_path = hf_hub_download(repo_id=REPO_ID, repo_type=REPO_TYPE, filename="splits/color_train.txt")
 test_split_path = hf_hub_download(repo_id=REPO_ID, repo_type=REPO_TYPE, filename="splits/color_test.txt")
 leaf_map_path = hf_hub_download(repo_id=REPO_ID, repo_type=REPO_TYPE, filename="leaf_grouping/leaf-map.json")
@@ -19,7 +18,6 @@ def load_split(path):
         return [line.strip() for line in f if line.strip()]
 
 def compute_leaf_id(file_rel_path, class_name, leaf_map):
-    # Orijinal plant_village.py'deki mantığın birebir aynısı
     file_name = os.path.basename(file_rel_path)
     image_identifier = file_name.replace("_final_masked", "")
     if "___" in image_identifier:
@@ -60,27 +58,27 @@ def build_manifest(split_file, split_name):
             "exists": exists, "class_name": class_name, "species": species,
             "leaf_id": leaf_id,
         })
-    print(f"{split_name}: {len(records)} kayıt işlendi, {missing} dosya eksik")
+    print(f"{split_name}: {len(records)} records processed, {missing} files missing")
     return records
 
-print("Manifest oluşturuluyor...")
+print("Building manifest...")
 train_records = build_manifest(train_split_path, "train")
 test_records = build_manifest(test_split_path, "test")
 
 df = pd.DataFrame(train_records + test_records)
-print(f"\nToplam kayıt: {len(df)}")
-print(f"Diskte var olan dosya: {df['exists'].sum()} / {len(df)}")
+print(f"\nTotal records: {len(df)}")
+print(f"Files existing on disk: {df['exists'].sum()} / {len(df)}")
 
-print("\n=== Split bazında sayı ===")
+print("\n--- Counts by split ---")
 print(df['split'].value_counts())
 
-print(f"\n=== Benzersiz sınıf sayısı: {df['class_name'].nunique()} ===")
-print(f"=== Benzersiz tür sayısı: {df['species'].nunique()} ===")
-print("Türler:", sorted(df['species'].unique()))
+print(f"\n--- Unique classes: {df['class_name'].nunique()} ---")
+print(f"--- Unique species: {df['species'].nunique()} ---")
+print("Species:", sorted(df['species'].unique()))
 
-print(f"\n=== Benzersiz leaf_id sayısı: {df['leaf_id'].nunique()} ===")
+print(f"\n--- Unique leaf_ids: {df['leaf_id'].nunique()} ---")
 fallback_count = df['leaf_id'].str.startswith("fallback_").sum()
-print(f"leaf-map'te bulunamayan (fallback) kayıt sayısı: {fallback_count} ({fallback_count/len(df)*100:.1f}%)")
+print(f"Fallback records (not found in leaf-map): {fallback_count} ({fallback_count/len(df)*100:.1f}%)")
 
 df.to_csv("manifest.csv", index=False)
-print("\nKaydedildi: manifest.csv")
+print("\nSaved: manifest.csv")
