@@ -1,0 +1,12 @@
+{
+  "top1_accuracy": 0.9642,
+  "top3_accuracy": 0.9977,
+  "precision_weighted": 0.9657,
+  "recall_weighted": 0.9642,
+  "f1_weighted": 0.9643,
+  "precision_macro": 0.9513,
+  "recall_macro": 0.9605,
+  "f1_macro": 0.9548,
+  "inference_time_ms": 213.48,
+  "model_size_mb": 9.24
+}

@@ -4,7 +4,7 @@
   "channels": 3,
   "color_order": "RGB",
   "resize_method": "bilinear",
-  "normalization": "rescale_1_255",
+  "normalization": "none - handled internally by MobileNetV3Small (include_preprocessing=True); pass raw decoded pixel values in [0,255] range, do not manually rescale",
   "augmentation_train_only": [
     "horizontal_flip",
     "rotation_15deg",
