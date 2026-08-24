@@ -1,0 +1,9 @@
+{
+  "top1_accuracy": 0.2682,
+  "top3_accuracy": 0.474,
+  "precision_macro": 0.2073,
+  "recall_macro": 0.1885,
+  "f1_macro": 0.1681,
+  "num_test_images": 384,
+  "num_classes_evaluated": 23
+}
