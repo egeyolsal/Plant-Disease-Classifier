@@ -1,0 +1,8 @@
+{
+  "top1_accuracy": 0.4583,
+  "top3_accuracy": 0.7682,
+  "precision_macro": 0.4109,
+  "recall_macro": 0.391,
+  "f1_macro": 0.3707,
+  "adaptation_epochs": 10
+}
