@@ -56,5 +56,21 @@
     "Soybean",
     "Squash",
     "Strawberry"
-  ]
+  ],
+  "plantdoc_no_coverage": [
+    "Apple___Black_rot",
+    "Apple___healthy",
+    "Corn_(maize)___healthy",
+    "Grape___Esca_(Black_Measles)",
+    "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)",
+    "Grape___healthy",
+    "Orange",
+    "Potato___healthy",
+    "Tomato___Target_Spot",
+    "Tomato___healthy"
+  ],
+  "plantdoc_insufficient_coverage": [
+    "Tomato___Spider_mites Two-spotted_spider_mite"
+  ],
+  "plantdoc_coverage_note": "10 target classes have zero PlantDoc representation; 1 more have only 1-2 crops after quality filtering and are excluded from domain adaptation and real-world evaluation despite nominally having a category match."
 }
