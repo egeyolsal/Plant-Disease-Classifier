@@ -1,0 +1,9 @@
+{
+  "species_top1_accuracy": 0.7708,
+  "species_f1_macro": 0.7194,
+  "disease_top1_accuracy": 0.5625,
+  "disease_top3_accuracy": 0.8125,
+  "disease_f1_macro": 0.538,
+  "num_species": 13,
+  "note": "Species-level accuracy derived by collapsing each predicted/true target class to its species prefix (before '___'). Verified: predicted and true species sets match exactly (13/13), no parsing artifacts from complex class names (parentheses, commas, spaces). All metrics measured on the locked PlantDoc test set (384 images, 23 disease classes / 13 species) with the final domain-adapted model (mobilenetv3small_focal.keras)."
+}
