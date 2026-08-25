@@ -1,0 +1,12 @@
+Grad-CAM representative samples findings:
+
+1. Tomato_Early_blight: correct (0.78), heatmap focuses on lesion.
+2. Strawberry -> misclassified as Raspberry (0.58). Source image had a
+   watermark/stock-photo studio background; heatmap was diffuse, not
+   focused - consistent with a data-quality outlier, not a systematic
+   species confusion (Strawberry's overall F1 is 0.91).
+3. Corn_Common_rust: correct (0.88), heatmap tightly focused on the
+   rust pustules themselves.
+4. Tomato_mosaic_virus: correct (0.75) - direct evidence that the
+   targeted augmentation experiment improved real predictions, not
+   just the aggregate metric.
