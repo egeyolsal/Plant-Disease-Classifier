@@ -1,0 +1,10 @@
+{
+  "num_classes_measured": 22,
+  "excluded_class": "Tomato___Bacterial_spot",
+  "top1_accuracy": 0.5811,
+  "f1_macro": 0.5665,
+  "precision_macro": 0.6027,
+  "recall_macro": 0.5874,
+  "f1_macro_34class_measured_only_baseline": 0.538,
+  "note": "Same 34-class model predictions, evaluated with Bacterial_spot excluded from both predictions and ground truth. No retraining performed for this measurement -- upper-bound estimate only."
+}
