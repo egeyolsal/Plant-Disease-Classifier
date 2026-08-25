@@ -1,0 +1,6 @@
+{
+  "top1_accuracy": 0.5651,
+  "top3_accuracy": 0.8073,
+  "f1_macro": 0.4941,
+  "epochs": 8
+}
