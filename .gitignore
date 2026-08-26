@@ -60,3 +60,5 @@ ml/models/*.keras
 !ml/models/*.tflite
 
 mobile/android/build/
+
+mobile/run_with_key.ps1

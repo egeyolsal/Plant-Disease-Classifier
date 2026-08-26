@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import '../services/image_input_service.dart';
 import '../../inference/services/tflite_classifier.dart';
+import '../../plantnet/services/plantnet_service.dart';
 
 class ScanScreen extends StatefulWidget {
   const ScanScreen({super.key});
@@ -13,12 +14,16 @@ class ScanScreen extends StatefulWidget {
 class _ScanScreenState extends State<ScanScreen> {
   final ImageInputService _imageInputService = ImageInputService();
   final TFLiteClassifier _classifier = TFLiteClassifier();
+  final PlantNetService _plantNetService = PlantNetService();
 
   File? _selectedImage;
   String? _errorMessage;
   bool _isModelReady = false;
   bool _isClassifying = false;
   ClassificationResult? _result;
+
+  bool _isCheckingPlantNet = false;
+  PlantNetResult? _plantNetResult;
 
   @override
   void initState() {
@@ -41,6 +46,7 @@ class _ScanScreenState extends State<ScanScreen> {
     setState(() {
       _errorMessage = null;
       _result = null;
+      _plantNetResult = null;
     });
 
     final result = await _imageInputService.pickImage(source);
@@ -71,6 +77,18 @@ class _ScanScreenState extends State<ScanScreen> {
           _isClassifying = false;
         });
       }
+      return;
+    }
+
+    // PlantNet comparison runs independently; its failure must not affect
+    // the local result already shown to the user.
+    setState(() => _isCheckingPlantNet = true);
+    final plantNet = await _plantNetService.identify(result.file!);
+    if (mounted) {
+      setState(() {
+        _plantNetResult = plantNet;
+        _isCheckingPlantNet = false;
+      });
     }
   }
 
@@ -84,28 +102,27 @@ class _ScanScreenState extends State<ScanScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('PlantInsight')),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Expanded(
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                clipBehavior: Clip.antiAlias,
-                child: _selectedImage == null
-                    ? Center(
-                        child: Icon(
-                          Icons.eco_outlined,
-                          size: 96,
-                          color: Theme.of(context).colorScheme.outline,
-                        ),
-                      )
-                    : Image.file(_selectedImage!, fit: BoxFit.contain),
+            Container(
+              height: 280,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                borderRadius: BorderRadius.circular(16),
               ),
+              clipBehavior: Clip.antiAlias,
+              child: _selectedImage == null
+                  ? Center(
+                      child: Icon(
+                        Icons.eco_outlined,
+                        size: 96,
+                        color: Theme.of(context).colorScheme.outline,
+                      ),
+                    )
+                  : Image.file(_selectedImage!, fit: BoxFit.contain),
             ),
             if (!_isModelReady && _errorMessage == null) ...[
               const SizedBox(height: 12),
@@ -121,6 +138,25 @@ class _ScanScreenState extends State<ScanScreen> {
               const SizedBox(height: 12),
               _ResultCard(result: _result!),
             ],
+            if (_isCheckingPlantNet) ...[
+              const SizedBox(height: 8),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 14,
+                    height: 14,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+                  SizedBox(width: 8),
+                  Text('Checking PlantNet...', style: TextStyle(fontSize: 12)),
+                ],
+              ),
+            ],
+            if (_plantNetResult != null) ...[
+              const SizedBox(height: 8),
+              _PlantNetCard(result: _plantNetResult!),
+            ],
             if (_errorMessage != null) ...[
               const SizedBox(height: 12),
               Text(
@@ -134,7 +170,8 @@ class _ScanScreenState extends State<ScanScreen> {
               children: [
                 Expanded(
                   child: FilledButton.icon(
-                    onPressed: _isModelReady ? () => _handlePick(ImageSourceType.camera) : null,
+                    onPressed:
+                        _isModelReady ? () => _handlePick(ImageSourceType.camera) : null,
                     icon: const Icon(Icons.camera_alt_outlined),
                     label: const Text('Camera'),
                   ),
@@ -142,7 +179,8 @@ class _ScanScreenState extends State<ScanScreen> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: OutlinedButton.icon(
-                    onPressed: _isModelReady ? () => _handlePick(ImageSourceType.gallery) : null,
+                    onPressed:
+                        _isModelReady ? () => _handlePick(ImageSourceType.gallery) : null,
                     icon: const Icon(Icons.photo_library_outlined),
                     label: const Text('Gallery'),
                   ),
@@ -163,14 +201,13 @@ class _ResultCard extends StatelessWidget {
 
   static const double _confidenceThreshold = 0.45;
 
-
   String _formatLabel(String label) {
-  final parts = label.split('___');
-  final species = parts.first.replaceAll('_', ' ');
-  final condition = parts.length > 1 ? parts[1].replaceAll('_', ' ') : null;
-  return condition != null ? '$species — $condition' : species;
+    final parts = label.split('___');
+    final species = parts.first.replaceAll('_', ' ');
+    final condition = parts.length > 1 ? parts[1].replaceAll('_', ' ') : null;
+    return condition != null ? '$species — $condition' : species;
   }
-  
+
   @override
   Widget build(BuildContext context) {
     final best = result.best;
@@ -185,6 +222,9 @@ class _ResultCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text('PlantInsight (on-device)',
+                style: Theme.of(context).textTheme.labelMedium),
+            const SizedBox(height: 6),
             if (isLowConfidence)
               Container(
                 padding: const EdgeInsets.all(8),
@@ -221,6 +261,53 @@ class _ResultCard extends StatelessWidget {
                   '${_formatLabel(p.label)}: ${(p.confidence * 100).toStringAsFixed(1)}%',
                   style: const TextStyle(fontSize: 12),
                 )),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _PlantNetCard extends StatelessWidget {
+  final PlantNetResult result;
+
+  const _PlantNetCard({required this.result});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Theme.of(context).colorScheme.secondaryContainer,
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('PlantNet (species reference)',
+                style: Theme.of(context).textTheme.labelMedium),
+            const SizedBox(height: 6),
+            if (!result.isSuccess)
+              Text(
+                result.error ?? 'PlantNet comparison unavailable.',
+                style: const TextStyle(fontSize: 12),
+              )
+            else
+              ...result.predictions.map((p) => Padding(
+                    padding: const EdgeInsets.only(bottom: 2),
+                    child: Text(
+                      '${p.displayName}: ${(p.score * 100).toStringAsFixed(1)}%',
+                      style: const TextStyle(fontSize: 13),
+                    ),
+                  )),
+            const SizedBox(height: 4),
+            Text(
+              'Note: PlantNet identifies species only, not disease. Scores are '
+              'not directly comparable to the on-device model above.',
+              style: TextStyle(
+                fontSize: 10,
+                fontStyle: FontStyle.italic,
+                color: Theme.of(context).colorScheme.onSecondaryContainer,
+              ),
+            ),
           ],
         ),
       ),
