@@ -1,10 +1,9 @@
 {
   "top1_accuracy": 0.5625,
   "top3_accuracy": 0.8125,
-  "precision_macro": 0.497,
-  "recall_macro": 0.4998,
-  "f1_macro": 0.4759,
+  "f1_macro": 0.538,
   "method": "focal_loss_gamma2_alpha0.25",
   "epochs": 9,
-  "early_stopped": true
+  "early_stopped": true,
+  "note": "f1_macro corrected (was 0.4759 due to missing labels= parameter in f1_score, see corrected-macro-f1 commit). precision_macro/recall_macro removed - unverified, likely affected by the same bug and not recomputed."
 }
