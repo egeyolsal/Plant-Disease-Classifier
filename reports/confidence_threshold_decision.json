@@ -1,0 +1,36 @@
+{
+  "confidence_threshold": 0.45,
+  "rationale": "Selected on PlantDoc validation set (951 images), not test. Chosen over 0.5 to reduce warning frequency (26.6% vs 32.2% of predictions flagged) for a better user experience, while preserving nearly identical discriminative power (2.17x vs 2.11x accuracy ratio between above/below threshold).",
+  "validation_table": {
+    "0.3": {
+      "pct_flagged": 9.1,
+      "acc_above": 0.6088,
+      "acc_below": 0.2069
+    },
+    "0.4": {
+      "pct_flagged": 20.7,
+      "acc_above": 0.6499,
+      "acc_below": 0.2741
+    },
+    "0.45": {
+      "pct_flagged": 26.6,
+      "acc_above": 0.6676,
+      "acc_below": 0.3083
+    },
+    "0.5": {
+      "pct_flagged": 32.2,
+      "acc_above": 0.6884,
+      "acc_below": 0.3268
+    },
+    "0.6": {
+      "pct_flagged": 45.7,
+      "acc_above": 0.7326,
+      "acc_below": 0.3816
+    },
+    "0.7": {
+      "pct_flagged": 57.7,
+      "acc_above": 0.801,
+      "acc_below": 0.4044
+    }
+  }
+}

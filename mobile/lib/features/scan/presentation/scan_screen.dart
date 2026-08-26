@@ -161,6 +161,9 @@ class _ResultCard extends StatelessWidget {
 
   const _ResultCard({required this.result});
 
+  static const double _confidenceThreshold = 0.45;
+
+
   String _formatLabel(String label) {
   final parts = label.split('___');
   final species = parts.first.replaceAll('_', ' ');
@@ -174,6 +177,7 @@ class _ResultCard extends StatelessWidget {
     final parts = best.label.split('___');
     final species = parts.first.replaceAll('_', ' ');
     final condition = parts.length > 1 ? parts[1].replaceAll('_', ' ') : null;
+    final isLowConfidence = best.confidence < _confidenceThreshold;
 
     return Card(
       child: Padding(
@@ -181,6 +185,32 @@ class _ResultCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (isLowConfidence)
+              Container(
+                padding: const EdgeInsets.all(8),
+                margin: const EdgeInsets.only(bottom: 8),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.errorContainer,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.info_outline,
+                        size: 18, color: Theme.of(context).colorScheme.onErrorContainer),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'The model is not fully confident about this prediction. '
+                        'The options below may help, or try a clearer photo.',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Theme.of(context).colorScheme.onErrorContainer,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             Text(species, style: Theme.of(context).textTheme.titleLarge),
             if (condition != null)
               Text(condition, style: Theme.of(context).textTheme.titleMedium),
