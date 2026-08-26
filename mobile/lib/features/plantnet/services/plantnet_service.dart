@@ -49,6 +49,13 @@ class PlantNetService {
           await request.send().timeout(const Duration(seconds: 15));
       final response = await http.Response.fromStream(streamedResponse);
 
+      if (response.statusCode == 404) {
+        return const PlantNetResult(
+          error: 'PlantNet could not detect a plant in this image.',
+        );
+      }
+
+
       if (response.statusCode != 200) {
         return PlantNetResult(
           error: 'PlantNet API error (${response.statusCode}).',

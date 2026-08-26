@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter/services.dart';
 
 enum ImageSourceType { camera, gallery }
 
@@ -35,8 +36,12 @@ class ImageInputService {
       }
 
       return ImageInputResult(file: file);
+    } on PlatformException catch (e) {
+      return ImageInputResult(
+        error: e.message ?? 'Could not access camera/gallery.',
+      );
     } catch (e) {
-      return ImageInputResult(error: 'Could not access camera/gallery: $e');
+      return const ImageInputResult(error: 'Could not access camera/gallery.');
     }
   }
 }
