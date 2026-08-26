@@ -58,3 +58,5 @@ models/*.keras
 
 ml/models/*.keras
 !ml/models/*.tflite
+
+mobile/android/build/
