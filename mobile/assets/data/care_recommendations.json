@@ -1,0 +1,72 @@
+{
+  "Corn_(maize)___Common_rust_": {
+    "title": "Common Rust",
+    "summary": "A fungal disease (Puccinia sorghi) causing reddish-brown, elongated pustules on both leaf surfaces. Rarely causes major yield loss in resistant hybrids but can be more damaging in cool, humid conditions.",
+    "care_tips": [
+      "Favor planting resistant or tolerant corn varieties where available.",
+      "Monitor fields regularly, especially during cool, humid weather.",
+      "Fungicide treatment is generally only warranted if pustules appear early and are widespread, particularly on susceptible sweet corn.",
+      "Avoid dense planting to help leaves dry faster after rain or dew."
+    ],
+    "disclaimer": "For fungicide selection and timing, consult your local agricultural extension office."
+  },
+  "Tomato___Tomato_Yellow_Leaf_Curl_Virus": {
+    "title": "Tomato Yellow Leaf Curl Virus (TYLCV)",
+    "summary": "A viral disease spread by whiteflies, causing stunted growth, small yellowing leaves that curl upward, and reduced fruit production. There is no cure once a plant is infected.",
+    "care_tips": [
+      "Prevention is the only effective strategy — infected plants cannot be cured.",
+      "Choose TYLCV-resistant tomato varieties when planting.",
+      "Control whitefly populations with sticky traps and by inspecting new transplants before planting.",
+      "Remove and discard infected plants promptly to reduce spread to healthy plants.",
+      "Reflective mulch can help reduce whitefly landing on plants."
+    ],
+    "disclaimer": "This is a viral disease with no chemical cure; management focuses entirely on prevention and vector control."
+  },
+  "Tomato___Early_blight": {
+    "title": "Early Blight",
+    "summary": "A common fungal disease (Alternaria) causing brown spots with concentric rings on older, lower leaves first. Can spread to stems and fruit, reducing yield if left unmanaged.",
+    "care_tips": [
+      "Water at the base of the plant rather than overhead, to keep foliage dry.",
+      "Add mulch around the base of plants to reduce soil splashing onto leaves.",
+      "Stake or cage plants and remove lower leaves to improve airflow.",
+      "Rotate tomato planting locations, avoiding the same spot for at least two years.",
+      "Remove and dispose of infected leaves rather than composting them in a home pile unless hot-composting."
+    ],
+    "disclaimer": "For fungicide options, consult your local agricultural extension office."
+  },
+  "Corn_(maize)___Northern_Leaf_Blight": {
+    "title": "Northern Corn Leaf Blight",
+    "summary": "A fungal disease (Exserohilum turcicum) producing long, cigar-shaped gray-to-tan lesions on leaves. Can cause significant yield loss if it develops before tasseling in susceptible plants.",
+    "care_tips": [
+      "Choose resistant corn hybrids where available — this is the most effective management approach.",
+      "Rotate away from corn for at least one growing season to reduce fungal spores surviving in residue.",
+      "Till or plow under crop debris after harvest to speed decomposition of infected material.",
+      "Scout fields regularly, especially during warm, humid weather with extended leaf wetness."
+    ],
+    "disclaimer": "For fungicide recommendations, consult your local agricultural extension office, as effectiveness varies by region and hybrid susceptibility."
+  },
+  "Strawberry": {
+    "title": "Strawberry — General Care",
+    "summary": "This plant was identified at the species level; a specific disease could not be determined. General growing guidance is provided below.",
+    "care_tips": [
+      "Plant in full sun, ideally at least 6-8 hours of direct sunlight per day.",
+      "Use well-drained, sandy loam soil rich in organic matter, with a pH around 6.0-6.5.",
+      "Water at the base of plants, providing about 1-1.5 inches of water per week during key growth stages.",
+      "Apply a layer of straw mulch to conserve moisture, keep berries clean, and reduce disease spread.",
+      "Avoid planting where tomatoes, peppers, eggplant, or potatoes have grown in the past few years, as they can carry diseases that also affect strawberries."
+    ],
+    "disclaimer": "This app does not diagnose a specific disease for this species. If you notice unusual spots, wilting, or discoloration, consult a local extension office or nursery."
+  },
+  "Blueberry": {
+    "title": "Blueberry — General Care",
+    "summary": "This plant was identified at the species level; a specific disease could not be determined. General growing guidance is provided below.",
+    "care_tips": [
+      "Plant in full sun, at least 6-8 hours of direct sunlight daily.",
+      "Blueberries require acidic soil, ideally a pH between 4.5 and 5.5 — a soil test is recommended before planting.",
+      "Keep soil consistently moist but not waterlogged; blueberries have shallow roots sensitive to both drought and standing water.",
+      "Water at the base of the plant in the morning rather than overhead, to reduce the risk of fungal disease on wet foliage.",
+      "Mulch with an acidic material such as pine needles or pine bark to help retain moisture and maintain soil pH."
+    ],
+    "disclaimer": "This app does not diagnose a specific disease for this species. If you notice unusual spots, wilting, or discoloration, consult a local extension office or nursery."
+  }
+}

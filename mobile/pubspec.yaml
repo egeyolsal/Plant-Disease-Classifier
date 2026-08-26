@@ -66,6 +66,7 @@ flutter:
   assets:
       - assets/models/mobilenetv3small_dynamic.tflite
       - assets/models/labels.json
+      - assets/data/care_recommendations.json
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

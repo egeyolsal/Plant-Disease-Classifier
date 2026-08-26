@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../services/image_input_service.dart';
 import '../../inference/services/tflite_classifier.dart';
 import '../../plantnet/services/plantnet_service.dart';
+import '../../care/services/care_repository.dart';
+import '../../care/presentation/care_screen.dart';
 
 class ScanScreen extends StatefulWidget {
   const ScanScreen({super.key});
@@ -196,9 +198,9 @@ class _ScanScreenState extends State<ScanScreen> {
 
 class _ResultCard extends StatelessWidget {
   final ClassificationResult result;
-
-  const _ResultCard({required this.result});
-
+  final CareRepository careRepository = CareRepository();
+  _ResultCard({required this.result});
+ 
   static const double _confidenceThreshold = 0.45;
 
   String _formatLabel(String label) {
@@ -261,6 +263,36 @@ class _ResultCard extends StatelessWidget {
                   '${_formatLabel(p.label)}: ${(p.confidence * 100).toStringAsFixed(1)}%',
                   style: const TextStyle(fontSize: 12),
                 )),
+            const SizedBox(height: 8),
+            FutureBuilder<CareInfo?>(
+              future: careRepository.getCareInfo(best.label),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return const SizedBox.shrink();
+                }
+                final careInfo = snapshot.data;
+                if (careInfo == null) {
+                  return const Text(
+                    'No care guide available yet for this class.',
+                    style: TextStyle(fontSize: 11, color: Colors.grey, fontStyle: FontStyle.italic),
+                  );
+                }
+                return Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextButton.icon(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => CareScreen(label: best.label, careInfo: careInfo),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.spa_outlined, size: 18),
+                    label: const Text('Care Recommendations'),
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),
