@@ -1,0 +1,13 @@
+{
+  "keras_float32": {
+    "top1": 0.5625,
+    "f1_macro": 0.538,
+    "size_mb": 3.63
+  },
+  "tflite_dynamic_range": {
+    "top1": 0.5469,
+    "f1_macro": 0.5266,
+    "size_mb": 1.08
+  },
+  "note": "INT8 full-integer quantization failed at inference time (XNNPack delegate could not prepare the model, likely due to MobileNetV3's squeeze-excitation blocks). Dynamic range quantization used instead: weights-only INT8, activations remain float32."
+}

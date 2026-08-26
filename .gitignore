@@ -1,4 +1,4 @@
-__pycache__/
+﻿__pycache__/
 *.py[cod]
 .venv/
 venv/
@@ -14,7 +14,6 @@ manifest.csv
 ml/data/raw/
 ml/data/processed/
 
-ml/models/
 *.h5
 *.ckpt
 *.ckpt.*
@@ -50,8 +49,12 @@ mobile/ios/.symlinks/
 mobile/ios/Flutter/Flutter.framework
 mobile/ios/Flutter/Flutter.podspec
 *.iml
-models/
-
 plantdoc_raw/
 
 plantdoc_cropped/
+
+models/*.keras
+!models/*.tflite
+
+ml/models/*.keras
+!ml/models/*.tflite
