@@ -14,6 +14,7 @@ class PlantDoctorApp extends StatelessWidget {
     return MaterialApp(
       title: 'PlantInsight',
       theme: AppTheme.light,
+      debugShowCheckedModeBanner: false,
       home: const ScanScreen(),
     );
   }
